@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Grains.Interfaces.SimpleModels
 {
-    class Message
+    public class Message
     {
         public string Text { get; set; }
         public DateTime Timestamp { get; set; }

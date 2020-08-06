@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Orleans;
+using Orleans.Hosting;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Client
             return new HostBuilder()
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton<IClusterClient>(sp => CreateCluserClient(sp).Result);
+                    services.AddSingleton(sp => CreateCluserClient(sp).Result);
 
                     services.AddHostedService<ChatClientHostedService>();
 
@@ -42,7 +43,8 @@ namespace Client
 
             var client = new ClientBuilder()
                 .UseLocalhostClustering()
-                .ConfigureLogging(builder => builder.AddProvider(loggerProvider))
+                //.ConfigureLogging(builder => builder.AddProvider(loggerProvider))
+                .AddSimpleMessageStreamProvider("SimpleChat")
                 .Build();
 
             var attempt = 0;

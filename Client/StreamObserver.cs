@@ -1,4 +1,4 @@
-﻿using Grains;
+﻿using Grains.Interfaces.SimpleModels;
 using Microsoft.Extensions.Logging;
 using Orleans.Streams;
 using System;
@@ -8,30 +8,23 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class StreamObserver : IAsyncObserver<MessageGrain>
+    class StreamObserver : IAsyncObserver<Message>
     {
-        private readonly ILogger logger;
-
-        public StreamObserver(ILogger logger)
-        {
-            this.logger = logger;
-        }
-
         public Task OnCompletedAsync()
         {
-            logger.LogInformation("Chatroom message stream received stream completed event");
+            Console.WriteLine("Chatroom message stream received stream completed event");
             return Task.CompletedTask;
         }
 
         public Task OnErrorAsync(Exception ex)
         {
-            logger.LogInformation($"Chatroom is experiencing message delivery failure, ex :{ex}");
+            Console.WriteLine($"Chatroom is experiencing message delivery failure, ex :{ex}");
             return Task.CompletedTask;
         }
 
-        public Task OnNextAsync(MessageGrain item, StreamSequenceToken token = null)
+        public Task OnNextAsync(Message item, StreamSequenceToken token = null)
         {
-            this.logger.LogInformation(item.ToString());
+            Console.WriteLine(item.ToString());
             return Task.CompletedTask;
         }
     }

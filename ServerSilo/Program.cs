@@ -27,8 +27,10 @@ namespace ServerSilo
                             options.ServiceId = "SimpleChatApp";
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(MessageGrain).Assembly).WithReferences())
-                        ;
+                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ChannelGrain).Assembly).WithReferences())
+                        .AddSimpleMessageStreamProvider("SimpleChat")
+                        .AddMemoryGrainStorage("PubSubStore");
+                    ;
                 })
                 .ConfigureServices(services =>
                 {
